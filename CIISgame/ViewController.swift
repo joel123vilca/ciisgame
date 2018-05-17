@@ -42,19 +42,24 @@ class ViewController: UIViewController {
         
         for _ in 0..<4{
             for _ in 0..<4{
-            let cuadroFrame : CGRect = CGRect(x: 0, y: 0, width: self.cuadrowidth - 2, height: self.cuadrowidth - 2)
+            let cuadroFrame : CGRect = CGRect(x: 0, y: 0, width: self.cuadrowidth, height: self.cuadrowidth)
             let cuadro : CustomCuadro  = CustomCuadro(frame: cuadroFrame)
             
             let  currentCenter : CGPoint = CGPoint(x: self.cuadrocenterX, y: self.cuadrocenterY)
             cuadro.center = currentCenter
             cuadro.origincenter = currentCenter
-            cuadro.text = "\(cuadroNumber)"
+            //cuadro.text = "\(cuadroNumber)"
+                if cuadroNumber <= 16 {
+                    cuadro.backgroundColor = UIColor(patternImage: UIImage(named:"\(cuadroNumber).png")!)
+                }else{
+                        cuadro.backgroundColor = UIColor.gray
+                }
             cuadro.textAlignment = NSTextAlignment.center
             cuadro.isUserInteractionEnabled = true//interaccion con el touch
             
             //guardando la posicion central del label
             self.cuadrocenterarray.add(currentCenter)
-            cuadro.backgroundColor = UIColor.red
+            //cuadro.backgroundColor = UIColor.red
             self.board.addSubview(cuadro)
             cuadroNumber = cuadroNumber + 1
                 
@@ -97,7 +102,11 @@ class ViewController: UIViewController {
             //comprobamos para poder mover
             if(distance == self.cuadrowidth){
                 let tempcenter: CGPoint = touchlabel.center
+                UIView.beginAnimations(nil, context: nil)//poner animacion
+                UIView.setAnimationDuration(0.2)//tiempo de desplegue de animacion
+                
                 touchlabel.center = self.cuadroEmptyCenter
+                UIView.commitAnimations()
                 self.cuadroEmptyCenter = tempcenter
             }
         }
